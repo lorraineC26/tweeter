@@ -43,24 +43,41 @@ const renderTweets = function(tweetsArr) {
 
 const createTweetElement = function(tweetObj) {
   let layout = `
-    <article>
-      <header>
-        <img class="avatars" src="${tweetObj.user.avatars}"/>
-        ${tweetObj.user.name}
-      </header>
+      <article>
+        <header>
+          <img class="avatars" src="${tweetObj.user.avatars}"/>
+          ${tweetObj.user.name}
+        </header>
 
-      <p>${tweetObj.content.text}</p>
+        <p>${tweetObj.content.text}</p>
 
-      <footer>
-        ${tweetObj["created_at"]} days ago
-        <div>
-          <i class="fa-solid fa-flag" ></i>
-          <i class="fa-solid fa-retweet" ></i>
-          <i class="fa-solid fa-heart" ></i>
-        </div>
-      </footer>
-    </article>
-  `;
+        <footer>
+          ${tweetObj["created_at"]} days ago
+          <div>
+            <i class="fa-solid fa-flag" ></i>
+            <i class="fa-solid fa-retweet" ></i>
+            <i class="fa-solid fa-heart" ></i>
+          </div>
+        </footer>
+      </article>
+    `;
 
   return layout;
 };
+
+$(document).ready(function() {
+  $('.new-tweet form').on('submit', function(event) {
+    event.preventDefault();
+    const text = $('form').serialize();
+
+    $.ajax({ url: "/tweets", method: 'POST', data: text })
+      .then(console.log(text));
+
+  });
+
+  renderTweets(data);
+});
+
+
+
+
