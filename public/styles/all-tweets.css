@@ -9,11 +9,15 @@ article {
   padding: 1em;
 }
 
+article:hover {
+  box-shadow: 5px 5px 5px #8e846a;
+}
+
 article > header {
   display: flex;
   flex-direction: row;
-  
 }
+
 
 article > footer {
   border-top: 4px solid #545149;
@@ -22,4 +26,20 @@ article > footer {
   justify-content: space-between;
   padding-top: 7px;
   font-size: small;
+}
+
+article > footer > div {
+  color: #545149;
+}
+
+article >footer .fa-flag:hover {
+  color: crimson;
+}
+
+article>footer .fa-retweet:hover {
+  color: crimson;
+}
+
+article>footer .fa-heart:hover {
+  color: crimson;
 }
