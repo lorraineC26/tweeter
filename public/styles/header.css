@@ -1,4 +1,4 @@
-header {
+body > header {
   height: 400px;
   width: 100%;
   background-color: #e9967a;
@@ -8,6 +8,6 @@ header {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-top: 120px;
+  padding-top: 120.1px;
   box-sizing: content-box;
 }
