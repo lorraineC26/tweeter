@@ -17,6 +17,17 @@ article:hover {
 article > header {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+}
+
+article > header #left {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+article > header #right {
+  color: #c2c2ac;
 }
 
 

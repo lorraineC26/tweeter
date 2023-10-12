@@ -4,23 +4,29 @@
  * Reminder: Use (and do all your DOM work in) jQuery's document ready function
  */
 
+
+// add each tweet to index.html
 const renderTweets = function(tweetsArr) {
   // loops through tweets
   // calls createTweetElement for each tweet
   // takes return value and appends it to the tweets container
   for (const tweetObj of tweetsArr) {
     const $tweet = createTweetElement(tweetObj);
-    $('.all-tweets').append($tweet);
+    $('.all-tweets').prepend($tweet); // make $tweet html always the first child so can appear on top
   }
 };
 
+// return a html layout for tweet
 const createTweetElement = function(tweetObj) {
   let daysAgo = timeago.format(tweetObj["created_at"]);
   const layout = `
       <article>
         <header>
-          <img class="avatars" src="${tweetObj.user.avatars}"/>
-          ${tweetObj.user.name}
+          <div id="left">
+            <img class="avatars" src="${tweetObj.user.avatars}"/>
+            ${tweetObj.user.name}
+          </div>
+          <div id="right">${tweetObj.user.handle}</div>
         </header>
 
         <p>${tweetObj.content.text}</p>
@@ -40,12 +46,20 @@ const createTweetElement = function(tweetObj) {
 };
 
 $(document).ready(function() {
+  
+  // browse tweets array and turn each tweet into html
+  const loadTweets = function() {
+    $.get("/tweets", function(data) {
+      renderTweets(data);
+    });
+  };
+  loadTweets();
 
   $('.new-tweet form').on('submit', function(event) {
     event.preventDefault();
     // get the exact input values from users
     let inputText = $(this).children('textarea').val();
-    
+    //check if the input is validated
     if (! inputText) {
       return alert("Oops! It's empty. Empty tweets cannot be posted :(");
     }
@@ -53,18 +67,25 @@ $(document).ready(function() {
       return alert("Oops! Your tweet is too long. Tweets go beyond 140 characters cannot be posted :(");
     }
 
-    // turns input form data into a query string so can be well recevied by the server
+    // turns validated input form data into a query string so can be well recevied by the server
     const text = $('form').serialize();
-    $.ajax({ url: "/tweets", method: 'POST', data: text });
+
+    // let input shows on html page
+    $.ajax({ url: "/tweets", method: 'POST', data: text })
+      // fetch new tweets array data
+      .then(() => {
+        return $.ajax('/tweets', { method: 'GET' });
+      })
+      .then(function(newTweetsArr) {
+        $('form')[0].reset(); // clear text in the textarea
+        $('form').find('.counter').text(140); // reset counter to 140 for a new tweet
+        const newTweet = [newTweetsArr[newTweetsArr.length - 1]];
+        renderTweets(newTweet);
+      });
+
   });
   
-  const loadTweets = function() {
-    $.get("/tweets", function(data) {
-      renderTweets(data);
-    });
-  };
-  loadTweets();
-  
+
 });
 
 
