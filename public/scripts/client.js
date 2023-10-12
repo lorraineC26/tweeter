@@ -4,6 +4,12 @@
  * Reminder: Use (and do all your DOM work in) jQuery's document ready function
  */
 
+// Prevent XXS
+const escape = function(str) {
+  let div = document.createElement("div");
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
+};
 
 // add each tweet to index.html
 const renderTweets = function(tweetsArr) {
@@ -24,12 +30,12 @@ const createTweetElement = function(tweetObj) {
         <header>
           <div id="left">
             <img class="avatars" src="${tweetObj.user.avatars}"/>
-            ${tweetObj.user.name}
+            ${escape(tweetObj.user.name)}
           </div>
-          <div id="right">${tweetObj.user.handle}</div>
+          <div id="right">${escape(tweetObj.user.handle)}</div>
         </header>
 
-        <p>${tweetObj.content.text}</p>
+        <p>${escape(tweetObj.content.text)}</p>
 
         <footer>
           <div class="timeago">${daysAgo}</div>
@@ -58,7 +64,7 @@ $(document).ready(function() {
   $('.new-tweet form').on('submit', function(event) {
     event.preventDefault();
     // get the exact input values from users
-    let inputText = $(this).children('textarea').val();
+    let inputText = $('form').children('textarea').val();
     //check if the input is validated
     if (! inputText) {
       return alert("Oops! It's empty. Empty tweets cannot be posted :(");
@@ -77,7 +83,7 @@ $(document).ready(function() {
         return $.ajax('/tweets', { method: 'GET' });
       })
       .then(function(newTweetsArr) {
-        $('form')[0].reset(); // clear text in the textarea
+        $('form').children('textarea').val(''); // clear text in the textarea
         $('form').find('.counter').text(140); // reset counter to 140 for a new tweet
         const newTweet = [newTweetsArr[newTweetsArr.length - 1]];
         renderTweets(newTweet);
