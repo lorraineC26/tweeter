@@ -60,6 +60,7 @@ $(document).ready(function() {
     });
   };
   loadTweets();
+  $(".error-msg").hide();
 
   $('.new-tweet form').on('submit', function(event) {
     event.preventDefault();
@@ -67,12 +68,17 @@ $(document).ready(function() {
     let inputText = $('form').children('textarea').val();
     //check if the input is validated
     if (! inputText) {
-      return alert("Oops! It's empty. Empty tweets cannot be posted :(");
+      $('.error-msg strong').text(" Error: Empty tweets cannot be posted :(");
+      $('.error-msg').slideDown('slow');
+      return;
     }
     if (inputText.length > 140) {
-      return alert("Oops! Your tweet is too long. Tweets go beyond 140 characters cannot be posted :(");
+      $('.error-msg strong').text(" Error: Your tweet is too long. Tweets go beyond 140 characters cannot be posted :(");
+      $('.error-msg').slideDown('slow');
+      return;
     }
-
+    $('.error-msg').slideUp('slow');
+    
     // turns validated input form data into a query string so can be well recevied by the server
     const text = $('form').serialize();
 

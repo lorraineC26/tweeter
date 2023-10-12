@@ -4,6 +4,14 @@
   align-items: center;
 }
 
+.new-tweet div.error-msg {
+  border: 4.5px solid red;
+  color: red;
+  padding: 18px;
+  margin-top: 17px;
+  margin-bottom: 17px;
+}
+
 .new-tweet textarea {
   background: transparent;
   font-weight: bold;
@@ -15,17 +23,16 @@
   padding: 1.5em;
 }
 
-.new-tweet div {
+.new-tweet div.submission {
   display: flex;
   justify-content: space-between;
   font-family: 'Bungee', sans-serif;
 }
 
 .new-tweet button {
-  font-family: 'Bungee',sans-serif;
+  font-family: 'Bungee', sans-serif;
   color: #fff;
   background-color: #4056A1;
   border: none;
   border-radius: 3px;
 }
-
