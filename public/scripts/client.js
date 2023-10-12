@@ -40,12 +40,22 @@ const createTweetElement = function(tweetObj) {
 };
 
 $(document).ready(function() {
+
   $('.new-tweet form').on('submit', function(event) {
     event.preventDefault();
-    const text = $('form').serialize();
+    // get the exact input values from users
+    let inputText = $(this).children('textarea').val();
+    
+    if (! inputText) {
+      return alert("Oops! It's empty. Empty tweets cannot be posted :(");
+    }
+    if (inputText.length > 140) {
+      return alert("Oops! Your tweet is too long. Tweets go beyond 140 characters cannot be posted :(");
+    }
 
-    $.ajax({ url: "/tweets", method: 'POST', data: text })
-      .then(console.log(text));
+    // turns input form data into a query string so can be well recevied by the server
+    const text = $('form').serialize();
+    $.ajax({ url: "/tweets", method: 'POST', data: text });
   });
   
   const loadTweets = function() {
@@ -53,7 +63,6 @@ $(document).ready(function() {
       renderTweets(data);
     });
   };
-
   loadTweets();
   
 });
