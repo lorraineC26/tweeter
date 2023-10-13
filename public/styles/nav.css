@@ -21,3 +21,10 @@ nav {
   flex-direction: column;
   align-items: center;
 }
+
+@media only screen and (max-width: 1023px) {
+  nav {
+    background-color:#e9967a;
+    background-image: url("https://www.transparenttextures.com/patterns/asfalt-dark.png");
+  }
+}

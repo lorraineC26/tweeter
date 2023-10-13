@@ -36,3 +36,11 @@ body {
   background-color: #f4f1ec;
   margin: auto;
  }
+
+ @media only screen and (min-width: 1024px) {
+   main {
+    margin: 224px 50px 50px 50px;
+    width: 57vw;
+    float: right;
+   }
+ }

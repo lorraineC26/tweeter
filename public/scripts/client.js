@@ -78,7 +78,7 @@ $(document).ready(function() {
       return;
     }
     $('.error-msg').slideUp('slow');
-    
+
     // turns validated input form data into a query string so can be well recevied by the server
     const text = $('form').serialize();
 
@@ -97,7 +97,6 @@ $(document).ready(function() {
 
   });
   
-
 });
 
 

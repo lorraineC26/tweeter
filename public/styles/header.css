@@ -11,3 +11,15 @@ body > header {
   padding-top: 120.1px;
   box-sizing: content-box;
 }
+
+@media only screen and (min-width: 1024px) {
+  body > header {
+    width: 23vw;
+    float: left;
+    margin-top: 14rem;
+    margin-left: 10rem;
+    padding-top: 76px;
+    border-radius: 2rem;
+    position: fixed;
+  }
+}
