@@ -1,5 +1,4 @@
 $(document).ready(function() {
-  // --- our code goes here --- //
   $('.new-tweet textarea').on('input', function() {
     let inputLength = $(this).val().length;
     let inputLeft = 140 - inputLength;

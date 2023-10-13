@@ -4,7 +4,7 @@
  * Reminder: Use (and do all your DOM work in) jQuery's document ready function
  */
 
-// Prevent XXS
+// prevent XXS attack
 const escape = function(str) {
   let div = document.createElement("div");
   div.appendChild(document.createTextNode(str));
@@ -18,7 +18,7 @@ const renderTweets = function(tweetsArr) {
   // takes return value and appends it to the tweets container
   for (const tweetObj of tweetsArr) {
     const $tweet = createTweetElement(tweetObj);
-    $('.all-tweets').prepend($tweet); // make $tweet html always the first child so can appear on top
+    $('.all-tweets').prepend($tweet); // make $tweet html always to be the first child so can appear on top
   }
 };
 
@@ -32,7 +32,9 @@ const createTweetElement = function(tweetObj) {
             <img class="avatars" src="${tweetObj.user.avatars}"/>
             ${escape(tweetObj.user.name)}
           </div>
-          <div id="right">${escape(tweetObj.user.handle)}</div>
+          <div id="right">
+            ${escape(tweetObj.user.handle)}
+          </div>
         </header>
 
         <p>${escape(tweetObj.content.text)}</p>
@@ -60,13 +62,14 @@ $(document).ready(function() {
     });
   };
   loadTweets();
+  
   $(".error-msg").hide();
 
   $('.new-tweet form').on('submit', function(event) {
     event.preventDefault();
     // get the exact input values from users
     let inputText = $('form').children('textarea').val();
-    //check if the input is validated
+    // check if the input is validated
     if (! inputText) {
       $('.error-msg strong').text(" Error: Empty tweets cannot be posted :(");
       $('.error-msg').slideDown('slow');
@@ -82,16 +85,16 @@ $(document).ready(function() {
     // turns validated input form data into a query string so can be well recevied by the server
     const text = $('form').serialize();
 
-    // let input shows on html page
+    // let input shows up on html page
     $.ajax({ url: "/tweets", method: 'POST', data: text })
-      // fetch new tweets array data
+      // fetch updated tweets array data
       .then(() => {
         return $.ajax('/tweets', { method: 'GET' });
       })
       .then(function(newTweetsArr) {
         $('form').children('textarea').val(''); // clear text in the textarea
         $('form').find('.counter').text(140); // reset counter to 140 for a new tweet
-        const newTweet = [newTweetsArr[newTweetsArr.length - 1]];
+        const newTweet = [newTweetsArr[newTweetsArr.length - 1]]; // latest tweet always at the end of the array
         renderTweets(newTweet);
       });
 
